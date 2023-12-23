@@ -22,14 +22,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register',                     'index');
-    Route::get('/register/{id}',                'show');
-    Route::put('/register/update/{id}',         'update')->name('user.update');
-    Route::put('/register/email/{id}',          'email')->name('user.email');
-    Route::put('/register/password/{id}',       'password')->name('user.password');
-    Route::delete('/register/{id}',             'destroy'); 
+Route::middleware('auth:sanctum')->group(function (){
+    Route::post('/logout', [LoginController::class, 'logout']);
+
+    Route::controller(RegisterController::class)->group(function () {
+        Route::get('/register',                     'index');
+        Route::get('/register/{id}',                'show');
+        Route::put('/register/update/{id}',         'update')->name('user.update');
+        Route::put('/register/email/{id}',          'email')->name('user.email');
+        Route::put('/register/password/{id}',       'password')->name('user.password');
+        Route::delete('/register/{id}',             'destroy'); 
+    });
 });
+
+
 
 
 
